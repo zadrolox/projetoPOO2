@@ -7,6 +7,7 @@ package br.ulbra.view;
 
 import br.ulbra.controller.UsuarioController;
 import br.ulbra.model.Usuario;
+import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +21,7 @@ public class FRConUsu extends javax.swing.JFrame {
      */
     public FRConUsu() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -54,6 +56,11 @@ public class FRConUsu extends javax.swing.JFrame {
         jLabel3.setText("Filtro");
 
         txtFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFiltroKeyPressed(evt);
+            }
+        });
 
         btPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ulbra/img/search.png"))); // NOI18N
         btPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -73,6 +80,11 @@ public class FRConUsu extends javax.swing.JFrame {
                 "Cod", "Nome", "Email", "Dt. Nasc.", "Ativo"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -149,6 +161,21 @@ public class FRConUsu extends javax.swing.JFrame {
     private void btPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btPesquisarMouseClicked
         pesquisar();
     }//GEN-LAST:event_btPesquisarMouseClicked
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        if (tabela.getSelectedRow() != -1) {
+            int pk = Integer.parseInt(tabela.getValueAt( tabela.getSelectedRow(), 0).toString());
+            FRUPDUsu telaUPD = new FRUPDUsu();
+            telaUPD.setPkUsuario(pk);
+            telaUPD.setVisible(true);
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           pesquisar();
+        } 
+    }//GEN-LAST:event_txtFiltroKeyPressed
 
     /**
      * @param args the command line arguments
