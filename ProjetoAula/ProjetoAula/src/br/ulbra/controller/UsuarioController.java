@@ -32,8 +32,16 @@ public class UsuarioController {
     public boolean adicionarUsuario(String nome, String email, String senha, String datan, int ativo){
         return usuarioDAO.adicionarUsuario(nome, email, senha, datan, ativo);
     }
-
+    
     public List<Usuario> readForDesc(String desc) {
         return usuarioDAO.readForDesc(desc);
+    }
+    
+    public Usuario readForPk(int pk) {
+        return usuarioDAO.readForPk(pk);
+    }
+    
+    public boolean alterarUsuario(Usuario u){
+        return usuarioDAO.alterarUsuario(u);
     }
 }

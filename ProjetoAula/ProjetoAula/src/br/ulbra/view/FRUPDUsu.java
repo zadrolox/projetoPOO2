@@ -5,17 +5,66 @@
  */
 package br.ulbra.view;
 
+import br.ulbra.controller.UsuarioController;
+import br.ulbra.model.Usuario;
+import br.ulbra.utils.Utils;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Administrador
  */
 public class FRUPDUsu extends javax.swing.JFrame {
-
+    private int pkUsuario;
+    
+    public void setPkUsuario(int pk){
+        this.pkUsuario = pk;
+    }
     /**
      * Creates new form FRUPDUsu
      */
     public FRUPDUsu() {
         initComponents();
+        this.setLocationRelativeTo(null);
+    }
+    
+    private boolean verificarCampos(){
+        if(txtNome.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Campo 'Nome' em branco");
+            return false;
+        }
+        
+        if(!txtNome.getText().matches("^[\\p{L} ]+$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Nome' possui caracteres inválidos");
+            return false;
+        }
+        
+        if(txtEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Campo 'Email' em branco");
+            return false;
+        }
+        if(!txtEmail.getText().matches("^[a-zA-Z._]+@[a-zA-Z._]+.[a-zA-Z._]+$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Email' possui formato inválido");
+            return false;
+        }
+        
+        if(!txtDataNascimento.getText().matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Data Nascimento' possui formato inválido."
+                    +" Ex: 01/01/2000");
+            return false;
+        }
+        
+        char[] senha = txtSenha.getPassword();
+        if(new String(senha).length() < 8){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Senha' deve ser maior que 8 caracteres");
+            return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -47,6 +96,11 @@ public class FRUPDUsu extends javax.swing.JFrame {
         txtCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -88,6 +142,11 @@ public class FRUPDUsu extends javax.swing.JFrame {
         btAlterar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ulbra/img/edit.png"))); // NOI18N
         btAlterar.setText("Alterar");
+        btAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btAlterarMouseClicked(evt);
+            }
+        });
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ulbra/img/trash.png"))); // NOI18N
@@ -96,11 +155,17 @@ public class FRUPDUsu extends javax.swing.JFrame {
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ulbra/img/cancelar.png"))); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btVoltarMouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Código");
 
+        txtCodigo.setEditable(false);
         txtCodigo.setText("jTextField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -196,6 +261,42 @@ public class FRUPDUsu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        UsuarioController controller = new UsuarioController();
+        Usuario usu = controller.readForPk(pkUsuario);
+        
+        String codigo = String.valueOf(usu.getPkUsuario());
+        txtCodigo.setText(codigo);
+        txtNome.setText(usu.getNomeUsu());
+        txtEmail.setText(usu.getEmailUsu());
+        txtDataNascimento.setText(usu.getDataNascUsu());
+        txtSenha.setText(usu.getSenhaUsu());
+        chkAtivo.setSelected(usu.isAtivoUsu() == 1);
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVoltarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btVoltarMouseClicked
+
+    private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
+        if(!verificarCampos()){
+            return;
+        }
+        
+        UsuarioController controller = new UsuarioController();
+        String  senha = new String(txtSenha.getPassword());
+        Usuario usuario = new Usuario();
+        usuario.setPkUsuario(pkUsuario);
+        usuario.setNomeUsu(txtNome.getText());
+        usuario.setEmailUsu(txtEmail.getText());
+        usuario.setDataNascUsu(txtDataNascimento.getText());
+        usuario.setAtivoUsu(Utils.salvarBoolean(chkAtivo.isSelected()));
+        usuario.setSenhaUsu(senha);
+        if (controller.alterarUsuario(usuario)){
+            this.dispose();
+        };
+    }//GEN-LAST:event_btAlterarMouseClicked
 
     /**
      * @param args the command line arguments
