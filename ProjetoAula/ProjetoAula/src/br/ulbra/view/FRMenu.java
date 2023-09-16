@@ -116,6 +116,11 @@ public class FRMenu extends javax.swing.JFrame {
 
         miSobre.setBackground(new java.awt.Color(255, 51, 0));
         miSobre.setText("Sobre");
+        miSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSobreActionPerformed(evt);
+            }
+        });
         jMenu4.add(miSobre);
 
         Menu.add(jMenu4);
@@ -147,6 +152,10 @@ public class FRMenu extends javax.swing.JFrame {
     private void miConUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConUsuarioActionPerformed
         new FRConUsu().setVisible(true);
     }//GEN-LAST:event_miConUsuarioActionPerformed
+
+    private void miSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSobreActionPerformed
+        new FRSobre().setVisible(true);
+    }//GEN-LAST:event_miSobreActionPerformed
 
     /**
      * @param args the command line arguments
