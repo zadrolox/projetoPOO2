@@ -44,4 +44,8 @@ public class UsuarioController {
     public boolean alterarUsuario(Usuario u){
         return usuarioDAO.alterarUsuario(u);
     }
+    
+    public boolean excluirUsuario(int pkUsuario){
+        return usuarioDAO.excluirUsuario(pkUsuario);
+    }
 }
