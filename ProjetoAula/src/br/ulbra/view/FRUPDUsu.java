@@ -12,59 +12,21 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Administrador
+ * @author aluno.saolucas
  */
-public class FRUPDUsu extends javax.swing.JFrame {
+public class FRUPDUsu extends javax.swing.JDialog {
     private int pkUsuario;
     
     public void setPkUsuario(int pk){
         this.pkUsuario = pk;
     }
     /**
-     * Creates new form FRUPDUsu
+     * Creates new form FRUPDUsu_
      */
-    public FRUPDUsu() {
+    public FRUPDUsu(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-    }
-    
-    private boolean verificarCampos(){
-        if(txtNome.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Campo 'Nome' em branco");
-            return false;
-        }
-        
-        if(!txtNome.getText().matches("^[\\p{L} ]+$")){
-            JOptionPane.showMessageDialog(null,
-                    "Campo 'Nome' possui caracteres inválidos");
-            return false;
-        }
-        
-        if(txtEmail.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Campo 'Email' em branco");
-            return false;
-        }
-        if(!txtEmail.getText().matches("^[a-zA-Z._]+@[a-zA-Z._]+.[a-zA-Z._]+$")){
-            JOptionPane.showMessageDialog(null,
-                    "Campo 'Email' possui formato inválido");
-            return false;
-        }
-        
-        if(!txtDataNascimento.getText().matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$")){
-            JOptionPane.showMessageDialog(null,
-                    "Campo 'Data Nascimento' possui formato inválido."
-                    +" Ex: 01/01/2000");
-            return false;
-        }
-        
-        char[] senha = txtSenha.getPassword();
-        if(new String(senha).length() < 8){
-            JOptionPane.showMessageDialog(null,
-                    "Campo 'Senha' deve ser maior que 8 caracteres");
-            return false;
-        }
-        
-        return true;
     }
 
     /**
@@ -94,6 +56,8 @@ public class FRUPDUsu extends javax.swing.JFrame {
         btVoltar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
+        txtRSenha = new javax.swing.JPasswordField();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,27 +77,19 @@ public class FRUPDUsu extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nome");
 
-        txtNome.setText("jTextField1");
-
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Email");
 
-        txtEmail.setText("jTextField1");
-
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Data Nascimento");
-
-        txtDataNascimento.setText("jTextField1");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Ativo");
 
         chkAtivo.setBackground(new java.awt.Color(0, 102, 102));
-
-        txtSenha.setText("jPasswordField1");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -171,7 +127,10 @@ public class FRUPDUsu extends javax.swing.JFrame {
         jLabel8.setText("Código");
 
         txtCodigo.setEditable(false);
-        txtCodigo.setText("jTextField1");
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Repetir Senha");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -211,8 +170,10 @@ public class FRUPDUsu extends javax.swing.JFrame {
                                     .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                                .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel9)
+                            .addComponent(txtRSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +182,7 @@ public class FRUPDUsu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,7 +206,11 @@ public class FRUPDUsu extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtRSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,36 +226,66 @@ public class FRUPDUsu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        UsuarioController controller = new UsuarioController();
-        Usuario usu = controller.readForPk(pkUsuario);
+    private boolean verificarCampos(){
+        if(txtNome.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Campo 'Nome' em branco");
+            return false;
+        }
         
-        String codigo = String.valueOf(usu.getPkUsuario());
-        txtCodigo.setText(codigo);
-        txtNome.setText(usu.getNomeUsu());
-        txtEmail.setText(usu.getEmailUsu());
-        txtDataNascimento.setText(usu.getDataNascUsu());
-        txtSenha.setText(usu.getSenhaUsu());
-        chkAtivo.setSelected(usu.isAtivoUsu() == 1);
-    }//GEN-LAST:event_formWindowActivated
-
-    private void btVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVoltarMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_btVoltarMouseClicked
-
+        if(!txtNome.getText().matches("^[\\p{L} ]+$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Nome' possui caracteres inválidos");
+            return false;
+        }
+        
+        if(txtEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Campo 'Email' em branco");
+            return false;
+        }
+        if(!txtEmail.getText().matches("^[a-zA-Z._]+@[a-zA-Z._]+.[a-zA-Z._]+$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Email' possui formato inválido");
+            return false;
+        }
+        
+        if(!txtDataNascimento.getText().matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$")){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Data Nascimento' possui formato inválido."
+                    +" Ex: 01/01/2000");
+            return false;
+        }
+        
+        char[] senha = txtSenha.getPassword();
+        if(new String(senha).length() < 8){
+            JOptionPane.showMessageDialog(null,
+                    "Campo 'Senha' deve ser maior que 8 caracteres");
+            return false;
+        }
+        
+        if(!new String(senha).equals(new String(txtRSenha.getPassword()))){
+            JOptionPane.showMessageDialog(null,
+                    "As senhas não são iguais");
+            return false;
+        }
+        
+        return true;
+    }
+    
     private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
         if(!verificarCampos()){
             return;
         }
-        
+
         UsuarioController controller = new UsuarioController();
-        String  senha = new String(txtSenha.getPassword());
+        String senha = new String(txtSenha.getPassword());
         Usuario usuario = new Usuario();
         usuario.setPkUsuario(pkUsuario);
         usuario.setNomeUsu(txtNome.getText());
@@ -298,22 +293,41 @@ public class FRUPDUsu extends javax.swing.JFrame {
         usuario.setDataNascUsu(txtDataNascimento.getText());
         usuario.setAtivoUsu(Utils.salvarBoolean(chkAtivo.isSelected()));
         usuario.setSenhaUsu(senha);
-        if (controller.alterarUsuario(usuario)){
+        if(controller.alterarUsuario(usuario)){
             this.dispose();
         };
     }//GEN-LAST:event_btAlterarMouseClicked
 
     private void btExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btExcluirMouseClicked
-        int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir o usuario?", "Confirmação", 
-                JOptionPane.YES_NO_OPTION);
-        
-        if (resposta == JOptionPane.YES_OPTION){
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir o usuário?",
+            "Confirmação", JOptionPane.YES_NO_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION) {
             UsuarioController controller = new UsuarioController();
-            if (controller.excluirUsuario(pkUsuario)){
+            if(controller.excluirUsuario(pkUsuario)){
                 this.dispose();
-            }; 
+            };
         }
+
     }//GEN-LAST:event_btExcluirMouseClicked
+
+    private void btVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVoltarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btVoltarMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        UsuarioController controller = new UsuarioController();
+        Usuario usu = controller.readForPk(pkUsuario);
+       
+        String codigo = String.valueOf(usu.getPkUsuario());
+        txtCodigo.setText(codigo);
+        txtNome.setText(usu.getNomeUsu());
+        txtEmail.setText(usu.getEmailUsu());
+        txtDataNascimento.setText(usu.getDataNascUsu());
+        txtSenha.setText(usu.getSenhaUsu());
+        txtRSenha.setText(usu.getSenhaUsu());
+        chkAtivo.setSelected(usu.isAtivoUsu() == 1);
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -341,11 +355,19 @@ public class FRUPDUsu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FRUPDUsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FRUPDUsu().setVisible(true);
+                FRUPDUsu dialog = new FRUPDUsu(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -363,11 +385,13 @@ public class FRUPDUsu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDataNascimento;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JPasswordField txtRSenha;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

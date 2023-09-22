@@ -29,12 +29,17 @@ public class FRMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu3 = new javax.swing.JMenu();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         Menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         miCadUsuario = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        miAnimal = new javax.swing.JMenuItem();
+        miDono = new javax.swing.JMenuItem();
         miSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         miConUsuario = new javax.swing.JMenuItem();
@@ -43,6 +48,14 @@ public class FRMenu extends javax.swing.JFrame {
         miSobre = new javax.swing.JMenuItem();
 
         jMenu3.setText("jMenu3");
+
+        jMenu5.setText("File");
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Edit");
+        jMenuBar1.add(jMenu6);
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("[ULBRA] - MENU PRINCIPAL");
@@ -82,8 +95,21 @@ public class FRMenu extends javax.swing.JFrame {
         });
         jMenu1.add(miCadUsuario);
 
-        jMenuItem2.setText("???");
-        jMenu1.add(jMenuItem2);
+        miAnimal.setText("Animal");
+        miAnimal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAnimalActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miAnimal);
+
+        miDono.setText("Dono");
+        miDono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miDonoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miDono);
 
         miSair.setText("Sair");
         miSair.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +132,12 @@ public class FRMenu extends javax.swing.JFrame {
         });
         jMenu2.add(miConUsuario);
 
-        jMenuItem5.setText("???");
+        jMenuItem5.setText("Dono");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         Menu.add(jMenu2);
@@ -142,7 +173,7 @@ public class FRMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miCadUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadUsuarioActionPerformed
-        new FRCadUsu().setVisible(true);
+        new FRCadUsu(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_miCadUsuarioActionPerformed
 
     private void miSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSairActionPerformed
@@ -150,12 +181,24 @@ public class FRMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miSairActionPerformed
 
     private void miConUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConUsuarioActionPerformed
-        new FRConUsu().setVisible(true);
+        new FRConUsu(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_miConUsuarioActionPerformed
 
     private void miSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSobreActionPerformed
-        new FRSobre().setVisible(true);
+        new FRSobre(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_miSobreActionPerformed
+
+    private void miAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAnimalActionPerformed
+        new FRCadAnimal(this, rootPaneCheckingEnabled).setVisible(true);
+    }//GEN-LAST:event_miAnimalActionPerformed
+
+    private void miDonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDonoActionPerformed
+        new FRCadDon(this, rootPaneCheckingEnabled).setVisible(true);
+    }//GEN-LAST:event_miDonoActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new FRConDono(this, rootPaneCheckingEnabled).setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,11 +242,16 @@ public class FRMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem miAnimal;
     private javax.swing.JMenuItem miCadUsuario;
     private javax.swing.JMenuItem miConUsuario;
+    private javax.swing.JMenuItem miDono;
     private javax.swing.JMenuItem miSair;
     private javax.swing.JMenuItem miSobre;
     // End of variables declaration//GEN-END:variables

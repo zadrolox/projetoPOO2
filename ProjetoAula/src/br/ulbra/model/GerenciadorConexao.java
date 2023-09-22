@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class GerenciadorConexao {
     private static final String URL = "jdbc:mysql://localhost:3306/dbprojeto";
     private static final String USER = "root";
-    private static final String PASSWORD = "Ulbra@123";
+    private static final String PASSWORD = "admin";
     private static GerenciadorConexao instancia;
     private Connection conexao;
     private GerenciadorConexao() {

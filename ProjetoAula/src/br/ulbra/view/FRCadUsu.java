@@ -11,14 +11,15 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Jeferson Leon
+ * @author aluno.saolucas
  */
-public class FRCadUsu extends javax.swing.JFrame {
+public class FRCadUsu extends javax.swing.JDialog {
 
     /**
-     * Creates new form FRCadUsu
+     * Creates new form FRCadUsu_
      */
-    public FRCadUsu() {
+    public FRCadUsu(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -51,6 +52,7 @@ public class FRCadUsu extends javax.swing.JFrame {
         txtRSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("[ULBRA] - Cadastro de Usuários");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -246,12 +248,12 @@ public class FRCadUsu extends javax.swing.JFrame {
         if(!verificarCampos()){
             return;
         }
-        
+
         UsuarioController controller = new UsuarioController();
         String senha = new String(txtSenha.getPassword());
-        if(controller.adicionarUsuario(txtNome.getText(), txtEmail.getText(), senha, 
-                txtDtNasc.getText(), Utils.salvarBoolean(chkAtivo.isSelected()))){
-            this.dispose();
+        if(controller.adicionarUsuario(txtNome.getText(), txtEmail.getText(), senha,
+            txtDtNasc.getText(), Utils.salvarBoolean(chkAtivo.isSelected()))){
+        this.dispose();
         };
     }//GEN-LAST:event_btSalvarMouseClicked
 
@@ -281,11 +283,19 @@ public class FRCadUsu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FRCadUsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FRCadUsu().setVisible(true);
+                FRCadUsu dialog = new FRCadUsu(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

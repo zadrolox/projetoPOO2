@@ -60,53 +60,6 @@ public class UsuarioDAO {
         return false;
     }
     
-    public boolean alterarUsuario(Usuario u){
-        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
-        Connection con = gerenciador.getConexao();
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement("UPDATE tbusuario SET nomeusu = ?, emailusu = ?, senhausu = ?, "
-                    + "datanascusu = ?, ativousu = ? "
-                + "WHERE pkusuario = ?");
-            stmt.setString(1, u.getNomeUsu()); 
-            stmt.setString(2, u.getEmailUsu());
-            stmt.setString(3, u.getSenhaUsu());
-            stmt.setString(4, u.getDataNascUsu());
-            stmt.setInt(5, u.isAtivoUsu());
-            stmt.setInt(6, u.getPkUsuario());
-            
-            stmt.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
-            return true;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + ex);
-        } finally {
-            GerenciadorConexao.closeConnection(con, stmt);
-        }
-        return false;
-    }
-    
-    public boolean excluirUsuario(int pkUsuario){
-        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
-        Connection con = gerenciador.getConexao();
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement("DELETE FROM tbusuario WHERE pkusuario = ?");
-            stmt.setInt(1, pkUsuario);
-            
-            stmt.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
-            return true;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao Excluir: " + ex);
-        } finally {
-            GerenciadorConexao.closeConnection(con, stmt);
-        }
-        return false;
-    }
-    
     public List<Usuario> read() {
         String sql = "SELECT * FROM tbusuario";
         List<Usuario> usuarios = new ArrayList<>();
@@ -142,8 +95,12 @@ public class UsuarioDAO {
 
     }
     
-    public List<Usuario> readForDesc(String desc) {
-        String sql = "SELECT * FROM tbusuario WHERE nomeusu LIKE ?";
+    public List<Usuario> readForDesc(int tipo, String desc) {
+        String sql;
+        if (tipo == 0 || tipo == 1)
+            sql = "SELECT * FROM tbusuario WHERE nomeusu LIKE ?";
+        else
+            sql = "SELECT * FROM tbusuario WHERE emailusu LIKE ?";
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
         Connection con = gerenciador.getConexao();
         PreparedStatement stmt = null;
@@ -152,7 +109,10 @@ public class UsuarioDAO {
 
         try {
             stmt = con.prepareStatement(sql);
-            stmt.setString(1, "%"+desc+"%");
+            if (tipo == 0 || tipo == 2)
+            stmt.setString(1, desc+"%");
+            else 
+                stmt.setString(1, "%"+desc+"%");
             
             rs = stmt.executeQuery();
 
@@ -174,8 +134,6 @@ public class UsuarioDAO {
         } finally {
             GerenciadorConexao.closeConnection(con, stmt, rs);
         }
-        
-        
 
         return usuarios;
     }
@@ -208,8 +166,57 @@ public class UsuarioDAO {
         } finally {
             GerenciadorConexao.closeConnection(con, stmt, rs);
         }
+
         return usuario;
     }
     
+    public boolean alterarUsuario(Usuario u) {
+        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tbusuario SET nomeusu = ?, "
+                    +" emailusu = ?, senhausu = ?, datanascusu = ?, "
+                    +" ativousu = ? WHERE pkusuario = ?");
+            stmt.setString(1, u.getNomeUsu());
+            stmt.setString(2, u.getEmailUsu());
+            stmt.setString(3, u.getSenhaUsu());
+            stmt.setString(4, u.getDataNascUsu());
+            stmt.setInt(5, u.isAtivoUsu());
+            stmt.setInt(6, u.getPkUsuario());
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt);
+        }
+        return false;
+    }
     
+    public boolean excluirUsuario(int pkUsuario) {
+        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tbusuario "
+                    + "WHERE pkusuario = ?");
+            stmt.setInt(1, pkUsuario);
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt);
+        }
+        return false;
+    }
 }
