@@ -23,4 +23,20 @@ public class DonoController {
     public boolean adicionarDono(String nome, String endereco, String cpf, String email){
         return donoDAO.adicionarDono(nome, endereco, cpf, email);
     }
+    
+    public List<Dono> readForDesc(int tipo, String desc) {
+        return donoDAO.readForDesc(tipo, desc);
+    }
+    
+    public Dono readForPk(int pk) {
+        return donoDAO.readForPk(pk);
+    }
+    
+    public boolean alterarDono(Dono u) {
+        return donoDAO.alterarDono(u);
+    }
+    
+    public boolean excluirDono(int pkDono) {
+        return donoDAO.excluirDono(pkDono);
+    }
 }
