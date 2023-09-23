@@ -24,4 +24,12 @@ public class AnimalController {
         return animalDAO.adicionarAnimal(nome, raca, dono, especie, vivo, vacina);
     }
     
+    public Animal readForPk(int pk) {
+        return animalDAO.readForPk(pk);
+    }
+    
+    public List<Animal> readForDon(int pk) {
+        return animalDAO.readForDon(pk);
+    }
+    
 }

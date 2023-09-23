@@ -45,4 +45,71 @@ public class AnimalDAO {
         return false;
     }
     
+    public Animal readForPk(int pk) {
+        String sql = "SELECT * FROM tbanimal WHERE fkdono = ?";
+        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Animal animal = new Animal();
+
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, pk);
+            
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                animal.setPkAnimal(rs.getInt("pkani"));
+                animal.setNomeAni(rs.getString("nomeani"));
+                animal.setRacaAni(rs.getString("racaani"));
+                animal.setEspecieAni(rs.getString("especieani"));
+                animal.setVivoAni(rs.getInt("vivoani"));
+                animal.setVacinaAni(rs.getInt("vacinaani"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt, rs);
+        }
+
+        return animal;
+    }
+    
+    
+    public List<Animal> readForDon(int pk) {
+        String sql = "SELECT * FROM tbanimal WHERE fkdono = ?";
+        List<Animal> animais = new ArrayList<>();
+
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, pk);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Animal animal = new Animal();
+
+                animal.setPkAnimal(rs.getInt("pkanimal"));
+                animal.setNomeAni(rs.getString("nomeani"));
+                animal.setRacaAni(rs.getString("racaani"));
+                animal.setEspecieAni(rs.getString("especieani"));
+                animal.setVivoAni(rs.getInt("vivoani"));
+                animal.setVacinaAni(rs.getInt("vacinaani"));
+                
+                animais.add(animal);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt, rs);
+        }
+
+        return animais;
+    }
 }
