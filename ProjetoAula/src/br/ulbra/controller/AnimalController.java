@@ -32,4 +32,12 @@ public class AnimalController {
         return animalDAO.readForDon(pk);
     }
     
+    public boolean alterarAnimal(Animal u) {
+        return animalDAO.alterarAnimal(u);
+    }
+    
+    public boolean excluirAnimal(int pkAnimal) {
+        return animalDAO.excluirAnimal(pkAnimal);
+    }
+    
 }
