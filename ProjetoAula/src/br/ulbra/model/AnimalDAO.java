@@ -46,7 +46,7 @@ public class AnimalDAO {
     }
     
     public Animal readForPk(int pk) {
-        String sql = "SELECT * FROM tbanimal WHERE fkdono = ?";
+        String sql = "SELECT * FROM tbanimal WHERE pkanimal = ?";
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
         Connection con = gerenciador.getConexao();
         PreparedStatement stmt = null;
@@ -60,9 +60,10 @@ public class AnimalDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                animal.setPkAnimal(rs.getInt("pkani"));
+                animal.setPkAnimal(rs.getInt("pkanimal"));
                 animal.setNomeAni(rs.getString("nomeani"));
                 animal.setRacaAni(rs.getString("racaani"));
+                animal.setFkDono(rs.getInt("fkdono"));
                 animal.setEspecieAni(rs.getString("especieani"));
                 animal.setVivoAni(rs.getInt("vivoani"));
                 animal.setVacinaAni(rs.getInt("vacinaani"));
@@ -111,5 +112,54 @@ public class AnimalDAO {
         }
 
         return animais;
+    }
+    
+    public boolean alterarAnimal(Animal u) {
+        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tbanimal SET nomeani = ?, "
+                    +" racaani = ?, fkdono = ?, especieani = ?, vivoani = ?, vacinaani = ? WHERE pkanimal = ?");
+            stmt.setString(1, u.getNomeAni());
+            stmt.setString(2, u.getRacaAni());
+            stmt.setInt(3, u.getFkDono());
+            stmt.setString(4, u.getEspecieAni());
+            stmt.setInt(5, u.isVivoAni());
+            stmt.setInt(6, u.isVacinaAni());
+            stmt.setInt(7, u.getPkAnimal());
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt);
+        }
+        return false;
+    }
+    
+    public boolean excluirAnimal(int pkAnimal) {
+        GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
+        Connection con = gerenciador.getConexao();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tbanimal "
+                    + "WHERE pkanimal = ?");
+            stmt.setInt(1, pkAnimal);
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex);
+        } finally {
+            GerenciadorConexao.closeConnection(con, stmt);
+        }
+        return false;
     }
 }

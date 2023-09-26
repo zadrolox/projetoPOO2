@@ -5,12 +5,15 @@
  */
 package br.ulbra.model;
 
+import javax.swing.Icon;
+
 /**
  *
  * @author Administrador
  */
 public class Usuario {
     private int pkUsuario;
+    private Icon imagem;
     private String nomeUsu;
     private String emailUsu;
     private String dataNascUsu;
@@ -73,6 +76,16 @@ public class Usuario {
         else
             return "Inativo";
     }
+
+    public Icon getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Icon imagem) {
+        this.imagem = imagem;
+    }
+    
+    
 
     @Override
     public String toString() {

@@ -128,31 +128,21 @@ public class FRUPDDon extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(240, 240, 240));
         jLabel3.setText("Codigo");
 
-        txtCodigo.setText("jTextField1");
-
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("Nome");
-
-        txtNome.setText("jTextField2");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(240, 240, 240));
         jLabel5.setText("Endereco");
 
-        txtEndereco.setText("jTextField3");
-
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(240, 240, 240));
         jLabel6.setText("CPF");
 
-        txtCpf.setText("jTextField4");
-
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(240, 240, 240));
         jLabel7.setText("E-mail");
-
-        txtEmail.setText("jTextField5");
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -290,7 +280,15 @@ public class FRUPDDon extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        // TODO add your handling code here:
+        if (tabela.getSelectedRow() != -1) {
+            int pk = Integer.parseInt(
+                tabela.getValueAt(tabela.getSelectedRow(), 0).toString()
+            );
+            FRUPDAni telaUPD = new FRUPDAni(null, rootPaneCheckingEnabled);
+            telaUPD.setPkAnimal(pk);
+            telaUPD.carregarDono();
+            telaUPD.setVisible(true);
+        }
     }//GEN-LAST:event_tabelaMouseClicked
 
     public void carregarDono(){
@@ -329,7 +327,7 @@ public class FRUPDDon extends javax.swing.JDialog {
     }//GEN-LAST:event_btAlterarMouseClicked
 
     private void btExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btExcluirMouseClicked
-        int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir o usuário?",
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir o dono?",
             "Confirmação", JOptionPane.YES_NO_OPTION);
 
         if (resposta == JOptionPane.YES_OPTION) {
