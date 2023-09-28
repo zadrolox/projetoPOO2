@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,7 +33,8 @@ public class FRUPDUsu extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -309,17 +311,7 @@ public class FRUPDUsu extends javax.swing.JDialog {
     }
     
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        UsuarioController controller = new UsuarioController();
-        Usuario usu = controller.readForPk(pkUsuario);
-       
-        String codigo = String.valueOf(usu.getPkUsuario());
-        txtCodigo.setText(codigo);
-        txtNome.setText(usu.getNomeUsu());
-        txtEmail.setText(usu.getEmailUsu());
-        txtDataNascimento.setText(usu.getDataNascUsu());
-        txtSenha.setText(usu.getSenhaUsu());
-        txtRSenha.setText(usu.getSenhaUsu());
-        chkAtivo.setSelected(usu.isAtivoUsu() == 1);
+        
     }//GEN-LAST:event_formWindowActivated
 
     private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
@@ -341,7 +333,21 @@ public class FRUPDUsu extends javax.swing.JDialog {
             this.dispose();
         };
     }//GEN-LAST:event_btAlterarMouseClicked
-
+    
+    public void carregarUsuario(){
+        UsuarioController controller = new UsuarioController();
+        Usuario usu = controller.readForPk(pkUsuario);
+       
+        String codigo = String.valueOf(usu.getPkUsuario());
+        txtCodigo.setText(codigo);
+        txtNome.setText(usu.getNomeUsu());
+        txtEmail.setText(usu.getEmailUsu());
+        txtDataNascimento.setText(usu.getDataNascUsu());
+        txtSenha.setText(usu.getSenhaUsu());
+        txtRSenha.setText(usu.getSenhaUsu());
+        chkAtivo.setSelected(usu.isAtivoUsu() == 1);
+        lbFoto.setIcon(usu.getImagem());
+    }
     private void btExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btExcluirMouseClicked
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir o usuário?",
             "Confirmação", JOptionPane.YES_NO_OPTION);

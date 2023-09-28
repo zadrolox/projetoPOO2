@@ -5,6 +5,8 @@
  */
 package br.ulbra.model;
 
+import javax.swing.Icon;
+
 /**
  *
  * @author s.lucas
@@ -12,6 +14,7 @@ package br.ulbra.model;
 public class Animal {
     private int pkAnimal;
     private String nomeAni;
+    private Icon imagem;
     private String racaAni;
     private int fkDono;
     private String especieAni;
@@ -86,6 +89,14 @@ public class Animal {
             return "Vacinado";
         else
             return "IVacinado";
+    }
+    
+    public Icon getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Icon imagem) {
+        this.imagem = imagem;
     }
 
     @Override

@@ -210,6 +210,7 @@ public class FRConUsu extends javax.swing.JDialog {
             );
             FRUPDUsu telaUPD = new FRUPDUsu(null, rootPaneCheckingEnabled);
             telaUPD.setPkUsuario(pk);
+            telaUPD.carregarUsuario();
             telaUPD.setVisible(true);
         }
     }//GEN-LAST:event_tabelaMouseClicked

@@ -8,6 +8,7 @@ package br.ulbra.controller;
 import br.ulbra.model.Animal;
 import br.ulbra.model.AnimalDAO;
 import java.util.List;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,8 +21,8 @@ public class AnimalController {
         animalDAO = new AnimalDAO();
     } 
     
-    public boolean adicionarAnimal(String nome, String raca, int dono, String especie, int vivo, int vacina){
-        return animalDAO.adicionarAnimal(nome, raca, dono, especie, vivo, vacina);
+    public boolean adicionarAnimal(String nome, String raca, int dono, String especie, int vivo, int vacina, Icon imagem){
+        return animalDAO.adicionarAnimal(nome, raca, dono, especie, vivo, vacina, imagem);
     }
     
     public Animal readForPk(int pk) {

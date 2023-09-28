@@ -128,6 +128,8 @@ public class FRUPDDon extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(240, 240, 240));
         jLabel3.setText("Codigo");
 
+        txtCodigo.setEditable(false);
+
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("Nome");
@@ -306,7 +308,7 @@ public class FRUPDDon extends javax.swing.JDialog {
     }
     
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        
+        pesquisar();
     }//GEN-LAST:event_formWindowActivated
 
     private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
