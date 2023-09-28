@@ -5,6 +5,10 @@
  */
 package br.ulbra.model;
 
+import br.ulbra.utils.Utils;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,10 +32,12 @@ public class AnimalDAO {
         this.gerenciador = GerenciadorConexao.getInstancia();
     }
     
-    public boolean adicionarAnimal(String nome, String raca, int dono, String especie, int vivo, int vacina){
-        String sql = "INSERT into TBANIMAL (nomeAni, racaAni, fkDono,especieAni, vivoAni, vacinaAni ) "
-                + "VALUES (?,?,?,?,?,?)";
+    public boolean adicionarAnimal(String nome, String raca, int dono, String especie, int vivo, int vacina, Icon imagem){
+        String sql = "INSERT into TBANIMAL (nomeAni, racaAni, fkDono,especieAni, vivoAni, vacinaAni, imagemAni ) "
+                + "VALUES (?,?,?,?,?,?,?)";
         try {
+            byte[] iconBytes = Utils.iconToBytes(imagem);
+            
             PreparedStatement stmt = gerenciador.getConexao().prepareStatement(sql);
             stmt.setString(1, nome); //caso for outro tipo de dado, correlacionar o set... ex. setDouble, setInt
             stmt.setString(2, raca);
@@ -36,10 +45,13 @@ public class AnimalDAO {
             stmt.setString(4, especie);
             stmt.setInt(5, vivo);
             stmt.setInt(6, vacina);
+            stmt.setBytes(7, iconBytes);
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null,"Animal: " + nome + " inserido com sucesso!");
             return true;
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
         }
         return false;
@@ -67,10 +79,19 @@ public class AnimalDAO {
                 animal.setEspecieAni(rs.getString("especieani"));
                 animal.setVivoAni(rs.getInt("vivoani"));
                 animal.setVacinaAni(rs.getInt("vacinaani"));
+                
+                byte[] bytes = rs.getBytes("imagemani");
+                if (!(bytes == null)) {
+                    ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                    BufferedImage imagem = ImageIO.read(bis);
+                    animal.setImagem(new ImageIcon(imagem));
+                }
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
         } finally {
             GerenciadorConexao.closeConnection(con, stmt, rs);
         }
@@ -120,21 +141,27 @@ public class AnimalDAO {
         PreparedStatement stmt = null;
 
         try {
+            byte[] iconBytes = Utils.iconToBytes(u.getImagem());
+            
             stmt = con.prepareStatement("UPDATE tbanimal SET nomeani = ?, "
-                    +" racaani = ?, fkdono = ?, especieani = ?, vivoani = ?, vacinaani = ? WHERE pkanimal = ?");
+                    +" racaani = ?, fkdono = ?, especieani = ?, vivoani = ?, vacinaani = ?, imagemani = ? WHERE pkanimal = ?");
             stmt.setString(1, u.getNomeAni());
             stmt.setString(2, u.getRacaAni());
             stmt.setInt(3, u.getFkDono());
             stmt.setString(4, u.getEspecieAni());
             stmt.setInt(5, u.isVivoAni());
             stmt.setInt(6, u.isVacinaAni());
-            stmt.setInt(7, u.getPkAnimal());
+            stmt.setBytes(7, iconBytes);
+            stmt.setInt(8, u.getPkAnimal());
+            
             stmt.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
             return true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + ex);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
         } finally {
             GerenciadorConexao.closeConnection(con, stmt);
         }

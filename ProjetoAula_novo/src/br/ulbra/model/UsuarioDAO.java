@@ -26,52 +26,54 @@ import javax.swing.JOptionPane;
  * @author Administrador
  */
 public class UsuarioDAO {
+
     private GerenciadorConexao gerenciador;
-    public UsuarioDAO(){
+
+    public UsuarioDAO() {
         this.gerenciador = GerenciadorConexao.getInstancia();
     }
-    
-    public boolean autenticar(String email, String senha){
+
+    public boolean autenticar(String email, String senha) {
         String sql = "SELECT * from TBUSUARIO WHERE emailUsu = ? and senhaUsu = ? and ativoUsu = 1";
         try {
             PreparedStatement stmt = gerenciador.getConexao().prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, senha);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 return true;
-            }           
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return false;
     }
-    
-    public boolean adicionarUsuario(Usuario u){
+
+    public boolean adicionarUsuario(Usuario u) {
         String sql = "INSERT into TBUSUARIO (nomeUsu, emailUsu, "
                 + "senhaUsu, dataNascUsu, ativoUsu, imagemUsu) "
                 + "VALUES (?,?,?,?,?, ?)";
         try {
             byte[] iconBytes = Utils.iconToBytes(u.getImagem());
-            
+
             PreparedStatement stmt = gerenciador.getConexao().prepareStatement(sql);
-            stmt.setString(1, u.getNomeUsu()); 
+            stmt.setString(1, u.getNomeUsu());
             stmt.setString(2, u.getEmailUsu());
             stmt.setString(3, u.getSenhaUsu());
             stmt.setString(4, u.getDataNascUsu());
             stmt.setInt(5, u.isAtivoUsu());
             stmt.setBytes(6, iconBytes);
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Usuário: " + u.getNomeUsu() + " inserido com sucesso!");
+            JOptionPane.showMessageDialog(null, "Usuário: " + u.getNomeUsu() + " inserido com sucesso!");
             return true;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
         }
         return false;
     }
-    
+
     public List<Usuario> read() {
         String sql = "SELECT * FROM tbusuario";
         List<Usuario> usuarios = new ArrayList<>();
@@ -93,7 +95,7 @@ public class UsuarioDAO {
                 usuario.setSenhaUsu(rs.getString("senhausu"));
                 usuario.setDataNascUsu(rs.getString("datanascusu"));
                 usuario.setAtivoUsu(rs.getInt("ativousu"));
-                
+
                 usuarios.add(usuario);
             }
 
@@ -106,13 +108,14 @@ public class UsuarioDAO {
         return usuarios;
 
     }
-    
+
     public List<Usuario> readForDesc(int tipo, String desc) {
         String sql;
-        if (tipo == 0 || tipo == 1)
+        if (tipo == 0 || tipo == 1) {
             sql = "SELECT * FROM tbusuario WHERE nomeusu LIKE ?";
-        else
+        } else {
             sql = "SELECT * FROM tbusuario WHERE emailusu LIKE ?";
+        }
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
         Connection con = gerenciador.getConexao();
         PreparedStatement stmt = null;
@@ -121,11 +124,12 @@ public class UsuarioDAO {
 
         try {
             stmt = con.prepareStatement(sql);
-            if (tipo == 0 || tipo == 2)
-            stmt.setString(1, desc+"%");
-            else 
-                stmt.setString(1, "%"+desc+"%");
-            
+            if (tipo == 0 || tipo == 2) {
+                stmt.setString(1, desc + "%");
+            } else {
+                stmt.setString(1, "%" + desc + "%");
+            }
+
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -149,7 +153,7 @@ public class UsuarioDAO {
 
         return usuarios;
     }
-    
+
     public Usuario readForPk(int pk) {
         String sql = "SELECT * FROM tbusuario WHERE pkusuario = ?";
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
@@ -161,7 +165,7 @@ public class UsuarioDAO {
         try {
             stmt = con.prepareStatement(sql);
             stmt.setInt(1, pk);
-            
+
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -171,25 +175,26 @@ public class UsuarioDAO {
                 usuario.setSenhaUsu(rs.getString("senhausu"));
                 usuario.setDataNascUsu(rs.getString("datanascusu"));
                 usuario.setAtivoUsu(rs.getInt("ativousu"));
-                
+
                 byte[] bytes = rs.getBytes("imagemUsu");
-                ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-                BufferedImage imagem = ImageIO.read(bis);
-                
-                usuario.setImagem(new ImageIcon(imagem));
+                if (!(bytes == null)) {
+                    ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                    BufferedImage imagem = ImageIO.read(bis);
+                    usuario.setImagem(new ImageIcon(imagem));
+                }
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
-        }finally {
+        } finally {
             GerenciadorConexao.closeConnection(con, stmt, rs);
         }
 
         return usuario;
     }
-    
+
     public boolean alterarUsuario(Usuario u) {
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
         Connection con = gerenciador.getConexao();
@@ -197,10 +202,10 @@ public class UsuarioDAO {
 
         try {
             byte[] iconBytes = Utils.iconToBytes(u.getImagem());
-            
+
             stmt = con.prepareStatement("UPDATE tbusuario SET nomeusu = ?, "
-                    +" emailusu = ?, senhausu = ?, datanascusu = ?, "
-                    +" ativousu = ?, imagemUsu = ? WHERE pkusuario = ?");
+                    + " emailusu = ?, senhausu = ?, datanascusu = ?, "
+                    + " ativousu = ?, imagemUsu = ? WHERE pkusuario = ?");
             stmt.setString(1, u.getNomeUsu());
             stmt.setString(2, u.getEmailUsu());
             stmt.setString(3, u.getSenhaUsu());
@@ -208,7 +213,6 @@ public class UsuarioDAO {
             stmt.setInt(5, u.isAtivoUsu());
             stmt.setBytes(6, iconBytes);
             stmt.setInt(7, u.getPkUsuario());
-            
 
             stmt.executeUpdate();
 
@@ -216,14 +220,14 @@ public class UsuarioDAO {
             return true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + ex);
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
         } finally {
             GerenciadorConexao.closeConnection(con, stmt);
         }
         return false;
     }
-    
+
     public boolean excluirUsuario(int pkUsuario) {
         GerenciadorConexao gerenciador = GerenciadorConexao.getInstancia();
         Connection con = gerenciador.getConexao();
