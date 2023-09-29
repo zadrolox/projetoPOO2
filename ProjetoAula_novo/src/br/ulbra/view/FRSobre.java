@@ -68,6 +68,11 @@ public class FRSobre extends javax.swing.JDialog {
                 btGitHubMouseClicked(evt);
             }
         });
+        btGitHub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGitHubActionPerformed(evt);
+            }
+        });
 
         btVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/ulbra/img/cancelar.png"))); // NOI18N
@@ -141,7 +146,7 @@ public class FRSobre extends javax.swing.JDialog {
     private void btGitHubMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btGitHubMouseClicked
         try {
             Desktop desktop = Desktop.getDesktop();
-            URI uri = new URI("https://github.com/profigorbandasz");
+            URI uri = new URI("https://github.com/zadrolox");
             desktop.browse(uri);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -151,6 +156,10 @@ public class FRSobre extends javax.swing.JDialog {
     private void btVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVoltarMouseClicked
         this.dispose();
     }//GEN-LAST:event_btVoltarMouseClicked
+
+    private void btGitHubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGitHubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btGitHubActionPerformed
 
     /**
      * @param args the command line arguments
